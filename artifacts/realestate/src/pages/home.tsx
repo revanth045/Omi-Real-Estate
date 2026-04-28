@@ -6,7 +6,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Star, MapPin, Phone, Mail, ChevronDown, TrendingUp, Award, Users, Landmark } from "lucide-react";
+import { ArrowRight, Star, MapPin, Phone, Mail, ChevronDown, TrendingUp, Award, Users, Landmark, CheckCircle2, Globe2, ShieldCheck, MailPlus } from "lucide-react";
+
+// ─── Components ──────────────────────────────────────────────────────────────
+
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-1 bg-secondary z-[60] origin-left"
+      style={{ scaleX: scrollYProgress }}
+    />
+  );
+};
 
 // ─── Animation Helpers ────────────────────────────────────────────────────────
 
@@ -48,13 +60,31 @@ const ScaleIn = ({ children, delay = 0, className = "" }: { children: React.Reac
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.88 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.88 }}
+      initial={{ opacity: 0, scale: 0.94, filter: "blur(4px)" }}
+      animate={isInView ? { opacity: 1, scale: 1, filter: "blur(0px)" } : { opacity: 0, scale: 0.94, filter: "blur(4px)" }}
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
     </motion.div>
+  );
+};
+
+const RevealText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  
+  return (
+    <div ref={ref} className="overflow-hidden">
+      <motion.span
+        initial={{ y: "100%" }}
+        animate={isInView ? { y: 0 } : { y: "100%" }}
+        transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+        className="block"
+      >
+        {text}
+      </motion.span>
+    </div>
   );
 };
 
@@ -102,12 +132,18 @@ export default function Home() {
   };
 
   const listings = [
-    { id: 1, title: "Whispering Pines Estate", loc: "Bozeman, MT", price: "$8.5M", acres: "1,200 Acres", type: "Mountain Estate", img: "/images/listing-1.png" },
-    { id: 2, title: "Azure Cove", loc: "Carmel, CA", price: "$12.2M", acres: "45 Acres", type: "Coastal Land", img: "/images/listing-2.png" },
-    { id: 3, title: "Silver Spur Ranch", loc: "Fredericksburg, TX", price: "$4.1M", acres: "850 Acres", type: "Ranch Land", img: "/images/listing-3.png" },
-    { id: 4, title: "Clearwater Tract", loc: "Lake Tahoe, NV", price: "$6.8M", acres: "12 Acres", type: "Waterfront", img: "/images/listing-4.png" },
-    { id: 5, title: "Red Rock Reserve", loc: "Sedona, AZ", price: "$3.5M", acres: "320 Acres", type: "Desert Acreage", img: "/images/listing-5.png" },
-    { id: 6, title: "Emerald Valley", loc: "Aspen, CO", price: "$9.0M", acres: "640 Acres", type: "Forest Acreage", img: "/images/listing-6.png" },
+    { id: 1, title: "Whispering Pines Estate", loc: "Bozeman, MT", price: "$8.5M", acres: "1,200 Acres", type: "Mountain Estate", img: "/images/listing-montana.png" },
+    { id: 2, title: "Azure Cove", loc: "Carmel, CA", price: "$12.2M", acres: "45 Acres", type: "Coastal Land", img: "/images/listing-california.png" },
+    { id: 3, title: "Silver Spur Ranch", loc: "Fredericksburg, TX", price: "$4.1M", acres: "850 Acres", type: "Ranch Land", img: "/images/listing-texas.png" },
+    { id: 4, title: "Summit Peaks Lodge", loc: "Aspen, CO", price: "$9.4M", acres: "120 Acres", type: "Ski Estate", img: "/images/listing-colorado.png" },
+    { id: 5, title: "Red Rock Reserve", loc: "Sedona, AZ", price: "$3.5M", acres: "320 Acres", type: "Desert Acreage", img: "/images/listing-arizona.png" },
+    { id: 6, title: "Coral Reef Estate", loc: "Miami, FL", price: "$15.8M", acres: "12 Acres", type: "Waterfront", img: "/images/listing-florida.png" },
+    { id: 7, title: "Grand Teton Range", loc: "Jackson Hole, WY", price: "$11.2M", acres: "2,400 Acres", type: "Legacy Ranch", img: "/images/listing-wyoming.png" },
+    { id: 8, title: "Coastal Mist Retreat", loc: "Cannon Beach, OR", price: "$5.9M", acres: "28 Acres", type: "Pacific Estate", img: "/images/listing-oregon.png" },
+    { id: 9, title: "Sandstone Villa", loc: "Moab, UT", price: "$7.2M", acres: "440 Acres", type: "Desert Modern", img: "/images/listing-utah.png" },
+    { id: 10, title: "Adobe Sun Manor", loc: "Santa Fe, NM", price: "$4.8M", acres: "160 Acres", type: "High Desert", img: "/images/listing-newmexico.png" },
+    { id: 11, title: "Emerald Island", loc: "San Juan Islands, WA", price: "$8.1M", acres: "35 Acres", type: "Private Island", img: "/images/listing-washington.png" },
+    { id: 12, title: "Sapphire Lake Point", loc: "Coeur d'Alene, ID", price: "$6.4M", acres: "55 Acres", type: "Lakeside", img: "/images/listing-idaho.png" },
   ];
 
   const soldProperties = [
@@ -122,14 +158,15 @@ export default function Home() {
   ];
 
   const testimonials = [
-    { id: 1, name: "Sarah & Tom Whitfield", loc: "Austin, TX", text: "Working with James was a revelation. He understood immediately that we weren't just looking for land — we were looking for a legacy for our children. The transaction was flawless, but his insight was priceless.", img: "/images/client-1.png" },
-    { id: 2, name: "Marcus Sterling", loc: "Jackson Hole, WY", text: "In the high-end land market, discretion and speed are everything. James delivered both. He found an off-market property that perfectly matched my portfolio needs and negotiated it masterfully.", img: "/images/client-2.png" },
-    { id: 3, name: "Elena Rostova", loc: "Napa Valley, CA", text: "We spent three years looking for the right vineyard acreage before meeting James. He found it in three months. His understanding of soil, water rights, and zoning is absolutely unmatched.", img: "/images/client-3.png" },
-    { id: 4, name: "The Harrison Family", loc: "Bozeman, MT", text: "James isn't a broker; he's a land steward. He guided us away from several properties that looked good on paper, finally placing us in our dream ranch. The best decision we ever made.", img: "/images/client-4.png" },
+    { id: 1, name: "Sarah & Tom Whitfield", loc: "Austin, TX", text: "Working with James was a revelation. He understood immediately that we weren't just looking for land — we were looking for a legacy for our children. The transaction was flawless.", img: "/images/client-1.png" },
+    { id: 2, name: "Marcus Sterling", loc: "Jackson Hole, WY", text: "In the high-end land market, discretion and speed are everything. James delivered both. He found an off-market property that perfectly matched my portfolio needs.", img: "/images/client-2.png" },
+    { id: 3, name: "Elena Rostova", loc: "Napa Valley, CA", text: "We spent three years looking for the right vineyard acreage before meeting James. He found it in three months. His understanding of water rights is unmatched.", img: "/images/client-3.png" },
+    { id: 4, name: "The Harrison Family", loc: "Bozeman, MT", text: "James isn't a broker; he's a land steward. He guided us away from several properties that looked good on paper, finally placing us in our dream ranch.", img: "/images/client-1.png" },
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-white">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-white scroll-smooth">
+      <ScrollProgress />
 
       {/* ── Navigation ── */}
       <nav
@@ -168,24 +205,22 @@ export default function Home() {
         </motion.div>
 
         <motion.div className="container relative z-10 mx-auto px-6" style={{ opacity: heroOpacity }}>
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div className="space-y-4">
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white font-bold leading-[0.9] max-w-5xl">
-              Where Land<br />
-              <span className="text-secondary italic">Meets Legacy.</span>
+              <RevealText text="Where Land" delay={0.2} />
+              <div className="text-secondary italic">
+                <RevealText text="Meets Legacy." delay={0.4} />
+              </div>
             </h1>
-          </motion.div>
+          </div>
 
           <motion.p
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-xl md:text-2xl text-white/85 mt-8 max-w-2xl font-light"
           >
-            Exclusive brokerage for legacy ranches, pristine waterfronts, and distinguished estates.
+            Exclusive brokerage for legacy ranches, pristine waterfronts, and distinguished estates across the American West.
           </motion.p>
 
           <motion.div
@@ -330,6 +365,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── The Hartwell Method ── */}
+      <section className="py-28 bg-primary text-white overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-2xl">
+              <p className="text-secondary uppercase tracking-[0.2em] text-sm font-bold mb-4">The Approach</p>
+              <h2 className="text-4xl md:text-6xl font-serif font-bold leading-tight">
+                The Hartwell<br />Method.
+              </h2>
+            </div>
+            <p className="text-primary-foreground/70 text-lg max-w-md pb-2">
+              A refined process for matching exceptional land with its next steward.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-1">
+            {[
+              { step: "01", title: "Site Analysis", desc: "Exhaustive review of water rights, mineral rights, and conservation potential." },
+              { step: "02", title: "Targeted Search", desc: "Accessing off-market inventory through a network of multi-generational owners." },
+              { step: "03", title: "Strategic Terms", desc: "Expert negotiation focused on long-term legacy and preservation." },
+              { step: "04", title: "Stewardship", desc: "Seamless transition with local expertise in ranch and land management." },
+            ].map((item, i) => (
+              <FadeUp key={i} delay={i * 0.15} className="group">
+                <div className="p-10 border border-white/10 hover:bg-white/5 transition-colors h-full">
+                  <span className="text-secondary font-serif text-5xl opacity-30 block mb-8 group-hover:opacity-100 transition-opacity">
+                    {item.step}
+                  </span>
+                  <h3 className="text-2xl font-serif font-bold mb-4">{item.title}</h3>
+                  <p className="text-primary-foreground/60 leading-relaxed">{item.desc}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Listings ── */}
       <section id="listings" className="py-28 bg-muted/30 border-y border-border" data-testid="section-listings">
         <div className="container mx-auto px-6">
@@ -341,13 +412,18 @@ export default function Home() {
             </p>
           </FadeUp>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {listings.map((prop, i) => (
-              <ScaleIn key={prop.id} delay={i * 0.08}>
+              <ScaleIn key={prop.id} delay={i * 0.05}>
                 <motion.div
-                  className="group bg-white border border-border overflow-hidden shadow-md cursor-pointer"
-                  whileHover={{ y: -8, shadow: "0 30px 60px rgba(0,0,0,0.15)" }}
-                  transition={{ duration: 0.35 }}
+                  className="group bg-white border border-border overflow-hidden shadow-md cursor-pointer relative"
+                  whileHover={{ 
+                    y: -12, 
+                    rotateY: 2,
+                    rotateX: -2,
+                    boxShadow: "0 40px 80px rgba(0,0,0,0.12)" 
+                  }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                   data-testid={`card-listing-${prop.id}`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
@@ -355,8 +431,8 @@ export default function Home() {
                       src={prop.img}
                       alt={prop.title}
                       className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.7 }}
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                     />
                     {/* Hover overlay */}
                     <motion.div
@@ -575,6 +651,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Global Reach ── */}
+      <section className="py-28 bg-primary text-white overflow-hidden relative">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <Globe2 className="w-[120%] h-[120%] absolute -top-1/4 -right-1/4 text-secondary stroke-[0.5]" />
+        </div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <FadeUp>
+              <p className="text-secondary uppercase tracking-[0.2em] text-sm font-bold mb-4">Market Scope</p>
+              <h2 className="text-4xl md:text-6xl font-serif font-bold mb-8">Global Reach,<br />Local Expertise.</h2>
+              <p className="text-xl text-primary-foreground/70 mb-10 leading-relaxed">
+                While our focus is the American West, our network of high-net-worth buyers spans the globe. We connect your land with the world's most serious investors.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { label: "Active Investors", value: "2,500+" },
+                  { label: "Partner Brokerages", value: "85" },
+                  { label: "International Presence", value: "14 Countries" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-6">
+                    <div className="h-px w-12 bg-secondary/50" />
+                    <div>
+                      <p className="text-2xl font-serif font-bold text-secondary">{item.value}</p>
+                      <p className="text-xs uppercase tracking-widest opacity-60">{item.label}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+            <div className="relative">
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  opacity: [0.3, 0.5, 0.3]
+                }}
+                transition={{ duration: 8, repeat: Infinity }}
+                className="absolute inset-0 bg-secondary/20 rounded-full blur-3xl"
+              />
+              <img src="/images/listing-utah.png" alt="Global Reach" className="relative z-10 w-full aspect-square object-cover rounded-full border-8 border-white/5" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Features Strip ── */}
       <section className="py-20 bg-background border-b border-border">
         <div className="container mx-auto px-6">
@@ -625,6 +745,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Newsletter ── */}
+      <section className="py-24 bg-muted/50 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto bg-primary p-12 md:p-20 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-10">
+              <MailPlus className="w-32 h-32 text-white" />
+            </div>
+            <div className="relative z-10 text-center">
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">Off-Market Intelligence.</h2>
+              <p className="text-primary-foreground/70 text-lg mb-10 max-w-xl mx-auto">
+                Join our exclusive circle for early access to distressed assets and off-market legacy parcels before they ever reach the public.
+              </p>
+              <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                <Input placeholder="Your Email Address" className="bg-white/10 border-white/20 text-white placeholder:text-white/40 h-14" />
+                <Button className="bg-secondary text-primary hover:bg-secondary/90 h-14 px-8 font-serif font-bold">
+                  Subscribe
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Contact ── */}
       <section id="contact" className="py-28 bg-background" data-testid="section-contact">
         <div className="container mx-auto px-6 max-w-6xl">
@@ -661,7 +804,7 @@ export default function Home() {
 
                 <div className="mt-12 pt-10 border-t border-border">
                   <img
-                    src="/images/broker-contact.png"
+                    src="/images/broker.png"
                     alt="James Hartwell"
                     className="w-28 h-28 rounded-full object-cover border-4 border-secondary/30 shadow-xl"
                   />
@@ -786,6 +929,23 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* ── FAB Quick Contact ── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={scrolled ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+        className="fixed bottom-8 right-8 z-[60]"
+      >
+        <Button
+          size="lg"
+          className="rounded-full w-16 h-16 shadow-2xl bg-secondary text-primary hover:bg-secondary/90 border-2 border-white/20"
+          asChild
+        >
+          <a href="#contact">
+            <Phone className="w-6 h-6" />
+          </a>
+        </Button>
+      </motion.div>
     </div>
   );
 }
