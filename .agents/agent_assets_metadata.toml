@@ -1,0 +1,128 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "MBcre1N7qZF3r1W5ecjzY"
+uri = "file://artifacts/realestate/public/images/hero.png"
+type = "image"
+title = "hero background estate"
+
+[[generated]]
+id = "OyADJvHrWH1FyUGKq9vQu"
+uri = "file://artifacts/realestate/public/images/broker.png"
+type = "image"
+title = "broker portrait"
+
+[[generated]]
+id = "jIAy3w9Oni5Pqvf6vpr0j"
+uri = "file://artifacts/realestate/public/images/listing-1.png"
+type = "image"
+title = "mountain estate listing"
+
+[[generated]]
+id = "ste6SMXksI0ONM_-cyihj"
+uri = "file://artifacts/realestate/public/images/listing-2.png"
+type = "image"
+title = "coastal land listing"
+
+[[generated]]
+id = "SCdVCimWp31npKy2yShIR"
+uri = "file://artifacts/realestate/public/images/listing-3.png"
+type = "image"
+title = "ranch land listing"
+
+[[generated]]
+id = "RMk57m_si7MeI47c1W69_"
+uri = "file://artifacts/realestate/public/images/listing-4.png"
+type = "image"
+title = "waterfront listing"
+
+[[generated]]
+id = "a3kgVOty0GRpQrDCpk4b2"
+uri = "file://artifacts/realestate/public/images/listing-5.png"
+type = "image"
+title = "desert acreage listing"
+
+[[generated]]
+id = "AemV-zK9-yZQGAfEC-rHS"
+uri = "file://artifacts/realestate/public/images/listing-6.png"
+type = "image"
+title = "forest acreage listing"
+
+[[generated]]
+id = "1vOwdWLCfoDgdqzvsyNhL"
+uri = "file://artifacts/realestate/public/images/sold-1.png"
+type = "image"
+title = "sold property 1"
+
+[[generated]]
+id = "I_ZQCzV5J0OkDiKtRIBMS"
+uri = "file://artifacts/realestate/public/images/sold-2.png"
+type = "image"
+title = "sold property 2"
+
+[[generated]]
+id = "CtU8rdvqzAV8YEdpTRaRK"
+uri = "file://artifacts/realestate/public/images/sold-3.png"
+type = "image"
+title = "sold property 3"
+
+[[generated]]
+id = "Bo_jruDCZOnne9ck4A5IM"
+uri = "file://artifacts/realestate/public/images/sold-4.png"
+type = "image"
+title = "sold property 4"
+
+[[generated]]
+id = "WSYKXZFC1GhyKOHnsGcEo"
+uri = "file://artifacts/realestate/public/images/sold-5.png"
+type = "image"
+title = "sold property 5"
+
+[[generated]]
+id = "bjKdaNHvpv4FvxB6I9I70"
+uri = "file://artifacts/realestate/public/images/sold-6.png"
+type = "image"
+title = "sold property 6"
+
+[[generated]]
+id = "EMPQdRxmgWAN-feFg3ssf"
+uri = "file://artifacts/realestate/public/images/sold-7.png"
+type = "image"
+title = "sold property 7"
+
+[[generated]]
+id = "dAJ9RhiIJJu_GJEkchUyc"
+uri = "file://artifacts/realestate/public/images/sold-8.png"
+type = "image"
+title = "sold property 8"
+
+[[generated]]
+id = "32E1ef1OxWnGt9G4eo9YQ"
+uri = "file://artifacts/realestate/public/images/client-1.png"
+type = "image"
+title = "client avatar 1"
+
+[[generated]]
+id = "SCaXcwyn1ZBKNASMS06AG"
+uri = "file://artifacts/realestate/public/images/client-2.png"
+type = "image"
+title = "client avatar 2"
+
+[[generated]]
+id = "XoN2NG9ntG23b5VN83Ppg"
+uri = "file://artifacts/realestate/public/images/client-3.png"
+type = "image"
+title = "client avatar 3"
+
+[[generated]]
+id = "327lF5swVN6No35ifFYIl"
+uri = "file://artifacts/realestate/public/images/client-4.png"
+type = "image"
+title = "client avatar 4"
+
+[[generated]]
+id = "QQyxZZ7VMpN1Y-vrfGPLe"
+uri = "file://artifacts/realestate/public/images/broker-contact.png"
+type = "image"
+title = "broker contact portrait"
